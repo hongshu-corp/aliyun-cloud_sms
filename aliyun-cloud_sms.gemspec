@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Jeremy Cui"]
   spec.email         = ["tsuijy@gmail.com"]
 
-  spec.summary       = %q{Send short message via aliyun service.}
-  spec.description   = %q{Send short message via aliyun service.}
+  spec.summary       = %q{Aliyun SMS service gem.}
+  spec.description   = %q{Send short message via aliyun cloud service.}
   spec.homepage      = "https://github.com/jerecui/aliyun-cloud_sms"
   spec.license       = "MIT"
 
@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "uuid"
+  spec.add_dependency "uuid", ">=2.0", "<6.0"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
