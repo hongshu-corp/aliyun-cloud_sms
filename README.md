@@ -22,7 +22,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Global message client
+Create file aliyun-cloud_sms.rb to your config/initializers.
+``` ruby
+Aliyun::CloudSms.configure do |config|
+  config.access_key_secret = 'your key secret'
+  config.access_key_id = 'your key id'
+  config.sign_name = 'your sign name'
+end
+
+```
+If you want to send message, Aliyun::CloudSms.send_msg(mobile, template_code, template_param).
+e.g.
+```ruby
+Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
+```
+The param is not a string, is a hash instead.
+
+### Multiple account support
+If you want to send message with multiple sign name, you can build your own message sender client.
+```ruby
+client = Aliyun::CloudSms.new('your_access_key_id', 'your_access_key_secret', 'your_sign_name')
+
+client.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
+```
 
 ## Development
 
