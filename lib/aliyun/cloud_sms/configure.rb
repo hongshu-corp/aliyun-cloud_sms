@@ -6,6 +6,9 @@ module Aliyun::CloudSms
     @@signature_method = "HMAC-SHA1"
     @@signature_version = "1.0"
     @@sms_version = "2017-05-25"
+    @@access_key_id = ""
+    @@access_key_secret = ""
+    @@sign_name = ""
 
 
     def configure

@@ -6,10 +6,12 @@ require 'base64'
 
 module Aliyun::CloudSms
   class Client
+    attr_accessor :access_key_id, :access_key_secret, :sign_name
+
     def initialize(access_key_id, access_key_secret, sign_name)
-      @access_key_id = access_key_id
-      @access_key_secret = access_key_secret
-      @sign_name = sign_name
+      self.access_key_id = access_key_id
+      self.access_key_secret = access_key_secret
+      self.sign_name = sign_name
     end
 
     SERVICE_URL = "http://dysmsapi.aliyuncs.com/"
@@ -20,11 +22,9 @@ module Aliyun::CloudSms
       q_full= "Signature=#{sign(q_without_sig)}&#{q_without_sig}"
 
       begin
-        response = RestClient.get "#{SERVICE_URL}#{q_full}"
-        response.force_encoding("utf-8")
-        p response.methods
-      rescue => err
-        p err
+        response = RestClient.get url
+      rescue RestClient::ExceptionWithResponse => e
+        Rails.logger.error(e.response) if defined? Rails
       end
     end
 
@@ -41,8 +41,8 @@ module Aliyun::CloudSms
 
       def intrinsic_params
         {
-          :AccessKeyId => @access_key_id,
-          :SignName => @sign_name,
+          :AccessKeyId => self.access_key_id,
+          :SignName => self.sign_name,
           :Action => Aliyun::CloudSms.action,
           :Format => Aliyun::CloudSms.format,
           :RegionId => Aliyun::CloudSms.region_id,
@@ -70,7 +70,7 @@ module Aliyun::CloudSms
 
       def sign(str)
         str = "GET&#{encode('/')}&#{encode(str)}"
-        ret = OpenSSL::HMAC.digest('sha1', "#{@access_key_secret}&", str)
+        ret = OpenSSL::HMAC.digest('sha1', "#{self.access_key_secret}&", str)
         ret = Base64.encode64(ret)
         encode(ret.chomp)
       end
