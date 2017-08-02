@@ -1,7 +1,10 @@
 require "aliyun/cloud_sms/version"
+require 'aliyun/configure'
 
 module Aliyun
   module CloudSms
-    # Your code goes here...
+    extend Configure
+
+
   end
 end
