@@ -22,7 +22,7 @@ module Aliyun::CloudSms
       q_full= "Signature=#{sign(q_without_sig)}&#{q_without_sig}"
 
       begin
-        response = RestClient.get url
+        response = RestClient.get "#{SERVICE_URL}?#{q_full}"
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.error(e.response) if defined? Rails
       end
