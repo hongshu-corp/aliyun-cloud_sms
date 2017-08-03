@@ -26,6 +26,7 @@ module Aliyun::CloudSms
       rescue RestClient::ExceptionWithResponse => e
         puts e.response
         Rails.logger.error(e.response) if defined? Rails
+        e.response
       end
     end
 
