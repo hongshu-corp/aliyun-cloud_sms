@@ -47,6 +47,10 @@ client = Aliyun::CloudSms.new('your_access_key_id', 'your_access_key_secret', 'y
 client.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
 ```
 
+`template_params` can be a string as well.
+```ruby
+client.send_msg('13800000000', 'SMS_80190090', "{\"customer\":\"jeremy\"}" )
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

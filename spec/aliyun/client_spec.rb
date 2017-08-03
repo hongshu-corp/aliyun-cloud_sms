@@ -43,6 +43,11 @@ RSpec.describe Aliyun::CloudSms::Client do
       expect(subject[:Timestamp]).to eq timestamp
       expect(subject[:SignatureNonce]).to eq nonce
     }
+
+    describe "when param is a string" do
+      let(:template_param) { { :customer => "jeremy" }.to_json.to_s }
+      specify { expect(subject[:TemplateParam]).to eq template_param }
+    end
   end
 
   describe "#encode" do

@@ -24,16 +24,19 @@ module Aliyun::CloudSms
       begin
         response = RestClient.get "#{SERVICE_URL}?#{q_full}"
       rescue RestClient::ExceptionWithResponse => e
+        puts e.response
         Rails.logger.error(e.response) if defined? Rails
       end
     end
 
     private
       def dynamic_params(mobile, template_code, template_param)
+        template_param = template_param.to_json if template_param.is_a?(Hash)
+
         {
           :PhoneNumbers => mobile,
           :TemplateCode => template_code,
-          :TemplateParam => template_param.to_json.to_s,
+          :TemplateParam => template_param.to_s,
           :Timestamp => timestamp,
           :SignatureNonce => nonce,
         }
