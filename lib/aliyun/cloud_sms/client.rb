@@ -1,8 +1,5 @@
-require 'uuid'
-require 'json'
-require 'cgi'
-require 'openssl'
-require 'base64'
+require 'aliyun/cloud_sms/request/message_send'
+require 'aliyun/cloud_sms/request/message_query'
 
 module Aliyun::CloudSms
   class Client
@@ -14,69 +11,12 @@ module Aliyun::CloudSms
       self.sign_name = sign_name
     end
 
-    SERVICE_URL = "http://dysmsapi.aliyuncs.com/"
 
     def send_msg(mobile, template_code, template_param)
-      params = dynamic_params(mobile, template_code, template_param).merge(intrinsic_params)
-      q_without_sig = build_url(params)
-      q_full= "Signature=#{sign(q_without_sig)}&#{q_without_sig}"
+      request = Request::MessageSend.new mobile, template_code, template_param
+      request.client = self
 
-      begin
-        response = RestClient.get "#{SERVICE_URL}?#{q_full}"
-      rescue RestClient::ExceptionWithResponse => e
-        puts e.response
-        Rails.logger.error(e.response) if defined? Rails
-        e.response
-      end
+      request.send_request
     end
-
-    private
-      def dynamic_params(mobile, template_code, template_param)
-        template_param = template_param.to_json if template_param.is_a?(Hash)
-
-        {
-          :PhoneNumbers => mobile,
-          :TemplateCode => template_code,
-          :TemplateParam => template_param.to_s,
-          :Timestamp => timestamp,
-          :SignatureNonce => nonce,
-        }
-      end
-
-      def intrinsic_params
-        {
-          :AccessKeyId => self.access_key_id,
-          :SignName => self.sign_name,
-          :Action => Aliyun::CloudSms.action,
-          :Format => Aliyun::CloudSms.format,
-          :RegionId => Aliyun::CloudSms.region_id,
-          :SignatureMethod => Aliyun::CloudSms.signature_method,
-          :SignatureVersion => Aliyun::CloudSms.signature_version,
-          :Version => Aliyun::CloudSms.sms_version
-        }
-      end
-
-      def timestamp
-        Time.now.utc.strftime("%FT%TZ")
-      end
-
-      def nonce
-        UUID.generate
-      end
-
-      def build_url(hash)
-        hash.map{|k,v|"#{encode(k.to_s)}=#{encode(v.to_s)}"}.sort.join('&')
-      end
-
-      def encode(str)
-        CGI.escape(str)
-      end
-
-      def sign(str)
-        str = "GET&#{encode('/')}&#{encode(str)}"
-        ret = OpenSSL::HMAC.digest('sha1', "#{self.access_key_secret}&", str)
-        ret = Base64.encode64(ret)
-        encode(ret.chomp)
-      end
   end
 end

@@ -1,6 +1,5 @@
 module Aliyun::CloudSms
   module Configure
-    @@action = "SendSms"
     @@format = "JSON"
     @@region_id = "cn-hangzhou"
     @@signature_method = "HMAC-SHA1"
@@ -25,14 +24,6 @@ module Aliyun::CloudSms
 
     def sign_name=(sign_name)
       @@sign_name = sign_name
-    end
-
-    def action=(action)
-      @@action = action
-    end
-
-    def action
-      @@action
     end
 
     def format
