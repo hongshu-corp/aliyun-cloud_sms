@@ -1,6 +1,7 @@
 # Aliyun::CloudSms
 
 This gem is used for sending sms via aliyun sms service, and querying the message status as well.
+[中文文档 Chinese document](https://github.com/jerecui/aliyun-cloud_sms/blob/master/README-CN.md)
 
 ## Installation
 
@@ -18,9 +19,9 @@ Or install it yourself as:
 
     $ gem install aliyun-cloud_sms
 
-## Usage
+## Construct a client
 
-### Global message client
+### Global account
 Create file aliyun-cloud_sms.rb to your config/initializers.
 ``` ruby
 Aliyun::CloudSms.configure do |config|
@@ -28,29 +29,29 @@ Aliyun::CloudSms.configure do |config|
   config.access_key_id = 'your key id'
   config.sign_name = 'your sign name'
 end
-
 ```
-If you want to send message, Aliyun::CloudSms.send_msg(mobile, template_code, template_param).
-e.g.
-```ruby
-Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
-```
-The param is not a string, is a hash instead.
-
 ### Multiple account support
 If you want to send message with multiple sign name, you can build your own message sender client.
 ```ruby
 client = Aliyun::CloudSms.new('your_access_key_id', 'your_access_key_secret', 'your_sign_name')
 
-client.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
+## API
+### Message send
+```ruby
+Aliyun::CloudSms.send_msg(mobile, template_code, template_param).
+```
+e.g.
+```ruby
+Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
 ```
 
-`template_params` can be a string as well.
+`template_params` could be a string.
 ```ruby
 client.send_msg('13800000000', 'SMS_80190090', "{\"customer\":\"jeremy\"}" )
 ```
 
-## Message query
+### Status query
+
 ```ruby
 client.query_status(mobile, send_date = "#{Time.now.strftime('%Y%m%d')}", biz_id = nil, page_size = 1, current_page = 1)
 
@@ -69,7 +70,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/aliyun-cloud_sms. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Welcome pull request.
+Hope help.
 
 
 ## License
