@@ -10,6 +10,10 @@ module Aliyun
       default_client.send_msg mobile, template_code, template_param
     end
 
+    def self.query_status(mobile, send_date = "#{Time.now.strftime('%Y%m%d')}", biz_id = nil, page_size = 1, current_page = 1)
+      default_client.query_status mobile, send_date, biz_id, page_size, current_page
+    end
+
     def self.client(access_key_id, access_key_secret, sign_name)
       Aliyun::Client.new access_key_id, access_key_secret, sign_name
     end
