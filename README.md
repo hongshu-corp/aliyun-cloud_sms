@@ -1,8 +1,6 @@
 # Aliyun::CloudSms
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/aliyun/cloud_sms`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is used for sending sms via aliyun sms service, and querying the message status as well.
 
 ## Installation
 
@@ -50,6 +48,18 @@ client.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
 `template_params` can be a string as well.
 ```ruby
 client.send_msg('13800000000', 'SMS_80190090', "{\"customer\":\"jeremy\"}" )
+```
+
+## Message query
+```ruby
+client.query_status(mobile, send_date = "#{Time.now.strftime('%Y%m%d')}", biz_id = nil, page_size = 1, current_page = 1)
+
+# e.g.
+client.query_status '13800000000'
+client.query_status '13800000000', '20170806'
+client.query_status '13800000000', '20170806', '109177619494^4112265203597'
+client.query_status '13800000000', '20170806', nil, 10
+client.query_status '13800000000', '20170806', nil, 10, 2
 ```
 ## Development
 
