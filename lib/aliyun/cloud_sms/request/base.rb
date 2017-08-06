@@ -3,6 +3,7 @@ require 'json'
 require 'cgi'
 require 'openssl'
 require 'base64'
+require 'rest-client'
 
 module Aliyun
   module CloudSms
@@ -19,6 +20,19 @@ module Aliyun
 
         def get_params
           custom_params.merge intrinsic_params
+        end
+
+        def send_request
+          q_without_sig = build_url(get_params)
+          q_full= "Signature=#{sign(q_without_sig)}&#{q_without_sig}"
+
+          begin
+            response = RestClient.get "#{SERVICE_URL}?#{q_full}"
+          rescue RestClient::ExceptionWithResponse => e
+            puts e.response
+            Rails.logger.error(e.response) if defined? Rails
+            e.response
+          end
         end
 
         protected

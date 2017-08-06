@@ -5,6 +5,7 @@ RSpec.describe Aliyun::CloudSms::Request::MessageSend do
   let(:access_key_id) { "aliyun-sms-key-id" }
   let(:access_key_secret) { "aliyun-sms-key-secret" }
   let(:sign_name) { "awesome" }
+
   let(:mobile) { "13800000000" }
   let(:template_code) { "SMS_80190090" }
   let(:template_param) { { :customer => "jeremy" } }
@@ -25,5 +26,9 @@ RSpec.describe Aliyun::CloudSms::Request::MessageSend do
       let(:template_param) { { :customer => "jeremy" }.to_json.to_s }
       specify { expect(subject[:TemplateParam]).to eq template_param }
     end
+  end
+
+  describe "#action" do
+    specify { expect(sender.action).to eq "SendSms" }
   end
 end

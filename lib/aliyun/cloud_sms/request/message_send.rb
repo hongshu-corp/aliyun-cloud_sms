@@ -1,5 +1,4 @@
 require 'aliyun/cloud_sms/request/base'
-require 'rest-client'
 
 module Aliyun
   module CloudSms
@@ -27,21 +26,6 @@ module Aliyun
             :TemplateParam => self.template_param.to_s,
           }
         end
-
-        def send_request
-          # params = dynamic_params(self.mobile, self.template_code, self.template_param).merge(intrinsic_params)
-          q_without_sig = build_url(get_params)
-          q_full= "Signature=#{sign(q_without_sig)}&#{q_without_sig}"
-
-          begin
-            response = RestClient.get "#{SERVICE_URL}?#{q_full}"
-          rescue RestClient::ExceptionWithResponse => e
-            puts e.response
-            Rails.logger.error(e.response) if defined? Rails
-            e.response
-          end
-        end
-
       end
     end
   end

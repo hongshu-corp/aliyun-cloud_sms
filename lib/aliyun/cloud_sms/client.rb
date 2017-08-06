@@ -18,5 +18,12 @@ module Aliyun::CloudSms
 
       request.send_request
     end
+
+    def query_status(mobile, send_date = "#{Time.now.strftime('%Y%m%d')}", biz_id = nil, page_size = 1, current_page = 1)
+      request = Request::MessageQuery.new mobile, send_date, biz_id, page_size, current_page
+      request.client = self
+
+      request.send_request
+    end
   end
 end
