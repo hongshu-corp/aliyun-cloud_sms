@@ -1,6 +1,6 @@
+require 'erb'
 require 'uuid'
 require 'json'
-require 'cgi'
 require 'openssl'
 require 'base64'
 require 'rest-client'
@@ -68,7 +68,7 @@ module Aliyun
           end
 
           def encode(str)
-            CGI.escape(str)
+            ERB::Util.url_encode str
           end
 
           def sign(str)

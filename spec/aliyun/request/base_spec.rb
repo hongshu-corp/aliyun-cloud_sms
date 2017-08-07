@@ -42,6 +42,12 @@ RSpec.describe Aliyun::CloudSms::Request::MessageSend do
     subject { sender.send(:encode, source) }
     specify { expect(sender.send(:encode, '/')).to eq '%2F' }
     specify { expect(subject).to eq '%26' }
+
+    describe "blank char url-encoding" do
+      let(:source) { ' ' }
+      # If you use CGI.escape, you would get `+`...
+      specify { expect(subject).to eq '%20' }
+    end
   end
 
   describe "#build_url" do
