@@ -15,7 +15,7 @@ module Aliyun
         end
 
         def action
-          "SendSms"
+          "SendSms".freeze
         end
 
         def custom_params

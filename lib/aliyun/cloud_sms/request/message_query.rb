@@ -13,7 +13,7 @@ module Aliyun
         end
 
         def action
-          "QuerySendDetails"
+          "QuerySendDetails".freeze
         end
 
         def custom_params
