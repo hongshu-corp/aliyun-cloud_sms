@@ -12,8 +12,8 @@ module Aliyun::CloudSms
     end
 
 
-    def send_msg(mobile, template_code, template_param)
-      request = Request::MessageSend.new mobile, template_code, template_param
+    def send_msg(mobile, template_code, template_param, optional_params = {})
+      request = Request::MessageSend.new mobile, template_code, template_param, optional_params
       request.client = self
 
       request.send_request

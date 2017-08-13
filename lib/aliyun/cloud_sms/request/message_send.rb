@@ -5,12 +5,13 @@ module Aliyun
     module Request
       class MessageSend < Base
 
-        attr_accessor :mobile, :template_code, :template_param
+        attr_accessor :mobile, :template_code, :template_param, :optional_params
 
-        def initialize(mobile, template_code, template_param)
+        def initialize(mobile, template_code, template_param, optional_params = nil)
           self.mobile = mobile
           self.template_code = template_code
           self.template_param = template_param
+          self.optional_params = optional_params || {}
         end
 
         def action
@@ -24,7 +25,7 @@ module Aliyun
             :PhoneNumbers => self.mobile,
             :TemplateCode => self.template_code,
             :TemplateParam => self.template_param.to_s,
-          }
+          }.merge!(self.optional_params)
         end
       end
     end
