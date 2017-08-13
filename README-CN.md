@@ -39,6 +39,11 @@ client = Aliyun::CloudSms.new('your_access_key_id', 'your_access_key_secret', 'y
 client.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
 ```
 
+#### 可选参数支持
+```ruby
+Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"}, {:OutId => '您的业务id', :smsUpExtendCode => '上行短信用的code'} )
+```
+
 ## 接口
 
 ### 短信发送

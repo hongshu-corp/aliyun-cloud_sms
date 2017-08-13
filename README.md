@@ -1,6 +1,7 @@
 # Aliyun::CloudSms
 
 This gem is used for sending sms via aliyun sms service, and querying the message status as well.
+
 [中文文档 Chinese document](https://github.com/jerecui/aliyun-cloud_sms/blob/master/README-CN.md)
 
 ## Installation
@@ -49,6 +50,12 @@ Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"} )
 ```ruby
 client.send_msg('13800000000', 'SMS_80190090', "{\"customer\":\"jeremy\"}" )
 ```
+
+#### extended params support
+```ruby
+Aliyun::CloudSms.send_msg('13800000000', 'SMS_80190090', {"customer": "jere"}, {:OutId => 'your system id', :smsUpExtendCode => 'sms up extended code'} )
+```
+
 
 ### Status query
 
